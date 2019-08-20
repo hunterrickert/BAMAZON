@@ -29,5 +29,12 @@ function displayProducts() {
     });
 };
 
-inq
+inquirer.prompt([
+    {
+    type: "list",
+    message: "What item would you like to purchase?",
+    choices: choices,
+    name:"productChoices"
+    }
+])
 
