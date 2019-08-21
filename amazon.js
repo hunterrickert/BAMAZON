@@ -17,28 +17,28 @@ connection.connect(function(err) {
     if(err) throw err;
     console.log("connected to BAMAZON")
     connection.threadId + "\n";
-    // displayProducts();
-    purchase();
+    displayProducts();
 });
 
-// function displayProducts() {
-//     connection.query("SELECT * FROM products", 
-//     function(err, res) {
-//         if(err) throw err;
-//         console.table(res);
-//         // connection.end();
-//     });
-// };
+function displayProducts() {
+    connection.query("SELECT * FROM products", 
+    function(err, res) {
+        if(err) throw err;
+        console.table(res);
+        purchase();
+        // connection.end();
+    });
+};
 
 function purchase() {
     connection.query("SELECT * FROM products", function(err, results) {
         if(err) throw err;
     
-    console.log("hunter!!!");
+    
     inquirer.
         prompt([
             {
-            type: "rawlist",
+            type: "list",
             message: "Enter the Item Id of the product you would like to purchase?",
             choices: function () {
                 var choiceArray = [];
@@ -64,7 +64,7 @@ function purchase() {
           };
           if(chosenItem.stock_quantity >= answer.purchaseAmount) {
               var newStockQuantity = chosenItem.stock_quantity - parseInt(answer.purchaseAmount);
-              console.log(newStockQuantity);
+              console.log("Remaining Items in Stock: " + newStockQuantity);
               connection.query("UPDATE products SET ? WHERE ?", 
               [
                 {
